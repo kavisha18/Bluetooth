@@ -6,44 +6,45 @@
  
 int main(int argc, char **argv)
 {
-    struct sockaddr_rc addr = { 0 };
-    int s, status, len=0;
-    char dest[18] = "30:D9:D9:0B:61:EB";
-    const char *sample_text = "Connected without Dbus !!!";
-    char buf[256];
-    // allocate a socket
-    s = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
+	struct sockaddr_rc addr = { 0 };
+	int s, status, len=0;
+	char dest[18] = "30:D9:D9:0B:61:EB";
+	const char *sample_text = "Connected without Dbus !!!";
+	char buf[256];
+	
+	// allocate a socket
+	s = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
  
-    // set the connection parameters (who to connect to)
-    addr.rc_family = AF_BLUETOOTH;
-    addr.rc_channel = (uint8_t) 1;
-    str2ba( dest, &addr.rc_bdaddr );
+	// set the connection parameters (who to connect to)
+	addr.rc_family = AF_BLUETOOTH;
+	addr.rc_channel = (uint8_t) 1;
+	str2ba( dest, &addr.rc_bdaddr );
  
-    // connect to server
-    status = connect(s, (struct sockaddr *)&addr, sizeof(addr));
+	// connect to server
+	status = connect(s, (struct sockaddr *)&addr, sizeof(addr));
+
  
- 
-    if(status)
-    {
-        printf(" failed to connect the device!\n");
-        return -1;
-    }
- 
-    do
-    {
-	printf("Connected...\n");    
-        len = read(s, buf, sizeof buf);
- 
-    	 if( len>0 ) 
-	 {
-         	
-                buf[len]=0;
-         	printf("%s\n",buf);
-         	write(s, buf, strlen(buf)); 
-    		
+	if(status)
+	{
+		printf(" failed to connect the device!\n");
+		return -1;
 	}
-    } while(len>0); 
+ 
+	do
+	{
+		printf("Connected...\n");    
+		len = read(s, buf, sizeof buf);
+ 
+		if( len>0 ) 
+		{
+       	
+			buf[len]=0;
+			printf("%s\n",buf);
+			write(s, buf, strlen(buf)); 
+		
+		}
+	} while(len>0); 
    
-    close(s);
-    return 0;
+	close(s);
+	return 0;
 }
