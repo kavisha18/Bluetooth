@@ -1,0 +1,9 @@
+name: nikola_bt
+version: 0.1.0
+
+authors:
+  - Kavisha <kavisha181294@gmail.com>
+
+crystal: 0.26.1
+
+license: MIT
